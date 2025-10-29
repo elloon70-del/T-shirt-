@@ -1,93 +1,77 @@
-const canvas = document.getElementById('tshirtCanvas');
-const ctx = canvas.getContext('2d');
-let elements = [];
-
-// رسم التيشرت
-function drawTshirt(color) {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  
-  // رسم خلفية لون التيشرت
-  ctx.fillStyle = color === 'red' ? '#e53935' : 
-                 color === 'black' ? '#222' : '#fff';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  
-  // رسم مخطط بسيط لتيشيرت (مثل مستطيل مع رقبة)
-  ctx.strokeStyle = '#999';
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.moveTo(100, 50);
-  ctx.lineTo(100, 450);
-  ctx.lineTo(300, 450);
-  ctx.lineTo(300, 50);
-  ctx.arc(200, 50, 50, 0, Math.PI, false); // رقبة دائرية
-  ctx.stroke();
-
-  // إعادة رسم العناصر
-  elements.forEach(el => drawElement(el));
+body {
+  margin: 0;
+  padding: 15px;
+  font-family: 'Tajawal', Arial, sans-serif;
+  background: #f9f9f9;
+  direction: rtl;
 }
-
-// إضافة نص
-function addText() {
-  const text = prompt("اكتب النص المرغوب:");
-  if (!text) return;
-  elements.push({
-    type: 'text',
-    content: text,
-    x: 200,
-    y: 250,
-    font: 'bold 28px Arial',
-    color: '#000'
-  });
-  drawTshirt(currentColor);
+.header {
+  text-align: center;
+  margin-bottom: 15px;
 }
-
-// رسم عنصر
-function drawElement(el) {
-  if (el.type === 'text') {
-    ctx.font = el.font;
-    ctx.fillStyle = el.color;
-    ctx.textAlign = 'center';
-    ctx.fillText(el.content, el.x, el.y);
-  } else if (el.type === 'image') {
-    ctx.drawImage(el.img, el.x - el.width/2, el.y - el.height/2, el.width, el.height);
-  }
+.header h1 {
+  color: #e53935;
+  margin: 0;
 }
-
-// رفع صورة
-let currentColor = 'white';
-document.getElementById('uploadImage').addEventListener('change', function(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  const img = new Image();
-  const url = URL.createObjectURL(file);
-  img.onload = () => {
-    elements.push({
-      type: 'image',
-      img: img,
-      x: 200,
-      y: 250,
-      width: 100,
-      height: 100
-    });
-    drawTshirt(currentColor);
-    URL.revokeObjectURL(url);
-  };
-  img.src = url;
-});
-
-// تغيير لون التيشرت
-function changeTshirt() {
-  currentColor = document.getElementById('tshirtColor').value;
-  drawTshirt(currentColor);
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 15px;
+  padding: 12px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
-
-// تصدير كصورة
-function exportImage() {
-  const link = document.createElement('a');
-  link.download = 'تصميم-التيشيرت.png';
-  link.href = canvas.toDataURL('image/png');
-  link.click();
+.btn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 16px;
 }
-
-// بدء التطبيق
-drawTshirt('white');
+.red { background: #e53935; }
+.blue { background: #1e88e5; }
+.green { background: #43a047; }
+.sticker-menu {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  z-index: 100;
+  text-align: center;
+}
+.sticker-menu.hidden {
+  display: none;
+}
+.stickers img {
+  width: 60px;
+  height: 60px;
+  margin: 8px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: transform 0.2s;
+}
+.stickers img:hover {
+  transform: scale(1.2);
+}
+.canvas-container {
+  display: flex;
+  justify-content: center;
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+canvas {
+  max-width: 100%;
+  border: 1px solid #eee;
+  background: white;
+}
