@@ -1,1 +1,44 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>مصمم التيشيرتات</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="header">
+    <h1>🎨 مصمم التيشيرتات</h1>
+  </div>
 
+  <div class="toolbar">
+    <button class="btn red" onclick="addText()">أضف نصًا</button>
+    <button class="btn blue" onclick="openStickerMenu()">أضف ملصقًا</button>
+    <input type="file" id="uploadImage" accept="image/*">
+    <select id="tshirtColor" onchange="changeTshirt()">
+      <option value="white">أبيض</option>
+      <option value="black">أسود</option>
+      <option value="red">أحمر</option>
+    </select>
+    <button class="btn green" onclick="exportImage()">تصدير</button>
+  </div>
+
+  <div id="stickerMenu" class="sticker-menu hidden">
+    <h3>اختر ملصقًا:</h3>
+    <div class="stickers">
+      <img src="stickers/heart.png" onclick="addSticker('heart')">
+      <img src="stickers/star.png" onclick="addSticker('star')">
+      <img src="stickers/smile.png" onclick="addSticker('smile')">
+      <img src="stickers/fire.png" onclick="addSticker('fire')">
+    </div>
+    <button onclick="closeStickerMenu()">إغلاق</button>
+  </div>
+
+  <div class="canvas-container">
+    <canvas id="tshirtCanvas" width="400" height="500"></canvas>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
